@@ -10,7 +10,7 @@ header("Access-Control-Allow-Origin: *");
 try {
     $responseCode = http_response_code(200);
         $db = new PDO('mysql:host=db; dbname=Furniture_Store', 'root', 'password');
-        $result = CategoryHydrator::getCategory($db);
+        $result = CategoryHydrator::getCategories($db);
         $response = Response::successResponse200();
         $content = ["message"=> $response, "data"=> $result];
         echo json_encode($content);
