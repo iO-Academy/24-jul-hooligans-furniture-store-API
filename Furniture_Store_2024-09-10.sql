@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 11.4.2-MariaDB-ubu2404)
 # Database: Furniture_Store
-# Generation Time: 2024-09-10 09:10:56 +0000
+# Generation Time: 2024-09-10 12:41:58 +0000
 # ************************************************************
 
 
@@ -28,25 +28,26 @@ DROP TABLE IF EXISTS `Categories`;
 CREATE TABLE `Categories` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
+  `products` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 LOCK TABLES `Categories` WRITE;
 /*!40000 ALTER TABLE `Categories` DISABLE KEYS */;
 
-INSERT INTO `Categories` (`id`, `name`)
+INSERT INTO `Categories` (`id`, `name`, `products`)
 VALUES
-	(1,'Book case'),
-	(2,'Chair'),
-	(3,'Chest'),
-	(4,'Desk'),
-	(5,'Draws'),
-	(6,'Office Chair'),
-	(7,'Shelves'),
-	(8,'Sofa'),
-	(9,'TV Stand'),
-	(10,'Table'),
-	(11,'Wardrobe');
+	(1,'Book case',42),
+	(2,'Chair',51),
+	(3,'Chest',36),
+	(4,'Desk',50),
+	(5,'Draws',54),
+	(6,'Office Chair',43),
+	(7,'Shelves',46),
+	(8,'Sofa',31),
+	(9,'TV Stand',50),
+	(10,'Table',50),
+	(11,'Wardrobe',47);
 
 /*!40000 ALTER TABLE `Categories` ENABLE KEYS */;
 UNLOCK TABLES;
