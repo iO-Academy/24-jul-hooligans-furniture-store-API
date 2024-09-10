@@ -7,12 +7,6 @@ $db = Connection::db();
 $categories = [];
 $filename = 'furniture.json';
 $rawData = json_decode(file_get_contents($filename), true);
-// Create a list of unique categories
-foreach ($rawData as $data) {
-    $categories[] = $data['name'];
-}
-$uniqueCategories = array_unique($categories);
-$sortedArray = sort($uniqueCategories);
 
 // map categories to unique ID from Cat Table
 $map = [
