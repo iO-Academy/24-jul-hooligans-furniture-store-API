@@ -4,7 +4,7 @@ namespace FurnitureStoreAPI\Categories;
 use \PDO;
 class CategoryHydrator
 {
-    public static function getCategory(PDO $db)
+    public static function getCategories(PDO $db)
     {
             $query = $db->prepare("SELECT `id`, `name`, `products` FROM `Categories`");
             $query->execute();
