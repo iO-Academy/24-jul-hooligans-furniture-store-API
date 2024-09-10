@@ -1,27 +1,20 @@
 <?php
 
 require('vendor/autoload.php');
-use FurnitureStoreAPI\Categories\CategoryHydrator as CategoryHydrator;
-use FurnitureStoreAPI\Response\Response as Response;
 
-header('Content-Type: application/json; charset=utf-8');
-header("Access-Control-Allow-Origin: *");
+use FurnitureStoreAPI\Categories\CategoryHydrator as CategoryHydrator;
+use FurnitureStoreAPI\DatabaseConnection\DBConnect as Connection;
+use FurnitureStoreAPI\Response\LoggingService as ErrorLogging;
+use FurnitureStoreAPI\Response\ResponseService as Response;
+use FurnitureStoreAPI\Services\Headers as SetHeaders;
+
+SetHeaders::apiHeaders();
 
 try {
-    $responseCode = http_response_code(200);
-        $db = new PDO('mysql:host=db; dbname=Furniture_Store', 'root', 'password');
-        $result = CategoryHydrator::getCategory($db);
-        $response = Response::successResponse200();
-        $content = ["message"=> $response, "data"=> $result];
-        echo json_encode($content);
+    echo Response::apiResponse(200, 'Successfully retrieved categories', CategoryHydrator::getCategory(Connection::db()));
 } catch (Exception $e) {
-    $responseCode = http_response_code(500);
-    $response = Response::errorResponse500();
-    $content = ["message"=> $response, "data"=> []];
-    echo json_encode($content);
-    $logPath = 'Logs/errors.log';
-    $errorMessage = $e->getMessage();
-    file_put_contents($logPath, $errorMessage, FILE_APPEND);
+    echo Response::apiResponse(500, 'Unexpected error', []);
+    ErrorLogging::errorLogging($e);
 }
 
 

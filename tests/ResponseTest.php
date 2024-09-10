@@ -1,21 +1,15 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use FurnitureStoreAPI\Response\Response;
+use FurnitureStoreAPI\Response\ResponseService;
 
 class ResponseTest extends TestCase {
 
-    public function testSuccessResponse_Success ()
+    public function testResponse_Success ()
     {
-        $successResponse = new Response();
-        $result = $successResponse->successResponse200();
-        $this->assertSame('Successfully retrieved categories', $result);
-    }
-
-    public function testErrorResponse_Success ()
-    {
-        $errorResponse = new Response();
-        $result = $errorResponse->errorResponse500();
-        $this->assertSame('Unexpected error', $result);
+        $successResponse = new ResponseService();
+        $result = $successResponse->apiResponse(200, 'Successfully retrieved categories',['Bookshelves']);
+        $this->assertSame(200,http_response_code());
+        $this->assertSame('{"message":"Successfully retrieved categories","data":["Bookshelves"]}',$result);
     }
 }
