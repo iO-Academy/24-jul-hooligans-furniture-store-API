@@ -23,7 +23,3 @@ try {
     $errorMessage = $e->getMessage();
     file_put_contents($logPath, $errorMessage, FILE_APPEND);
 }
-
-
-
-

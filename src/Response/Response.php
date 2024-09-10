@@ -10,6 +10,4 @@ class Response
     public static function errorResponse500() {
         return 'Unexpected error';
     }
-
-
 }
