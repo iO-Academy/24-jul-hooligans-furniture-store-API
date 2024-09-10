@@ -2,16 +2,28 @@
 
 require('vendor/autoload.php');
 use FurnitureStoreAPI\Categories\CategoryHydrator as CategoryHydrator;
+use FurnitureStoreAPI\Response\Response as Response;
 
 header('Content-Type: application/json; charset=utf-8');
 header("Access-Control-Allow-Origin: *");
 
 try {
-    $db = new PDO('mysql:host=db; dbname=Furniture_Store', 'root', 'password');
-    $result = CategoryHydrator::getCategory($db);
-    echo json_encode($result);
+    $responseCode = http_response_code();
+    if ($responseCode === 200) {
+        $db = new PDO('mysql:host=db; dbname=Furniture_Store', 'root', 'password');
+        $result = CategoryHydrator::getCategory($db);
+        $response = Response::successResponse200();
+        $content = ["message"=> $response, "data"=> $result];
+        echo json_encode($content);
+    }
+    elseif ($responseCode === 500)
+    {
+        $response = Response::errorResponse500();
+        $content = ["message"=> $response, "data"=> []];
+        echo json_encode($content);
+    }
 } catch (Exception $e) {
-    $logPath = 'logs/errors.log';
+    $logPath = 'Logs/errors.log';
     $errorMessage = $e->getMessage();
     file_put_contents($logPath, $errorMessage, FILE_APPEND);
 }
