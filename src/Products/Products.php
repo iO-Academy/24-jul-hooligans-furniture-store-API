@@ -6,6 +6,7 @@ use JsonSerializable;
 
 class Products implements jsonSerializable
 {
+    protected int $id;
     protected int $categoryID;
     protected float $price;
     protected int $stock;
@@ -14,7 +15,7 @@ class Products implements jsonSerializable
     public function jsonSerialize(): mixed
     {
         return [
-            'categoryID' => $this->categoryID,
+            'id' => $this->id,
             'price' => $this->price,
             'stock' => $this->stock,
             'color' => $this->color,

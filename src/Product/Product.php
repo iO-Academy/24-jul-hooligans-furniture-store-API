@@ -6,7 +6,6 @@ use FurnitureStoreAPI\Products\Products;
 
 class Product extends Products implements JsonSerializable
 {
-    private int $id;
     private int $width;
     private int $height;
     private int $depth;

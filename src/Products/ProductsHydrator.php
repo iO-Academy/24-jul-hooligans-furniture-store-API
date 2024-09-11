@@ -8,7 +8,7 @@ class ProductsHydrator
 {
     public static function getProducts(PDO $db, int $categoryID)
     {
-        $query = $db->prepare("SELECT `categoryID`, `price`, `stock`, `color` 
+        $query = $db->prepare("SELECT `categoryID`, `price`, `stock`, `color`, `id`
                                 FROM `Products` WHERE `categoryID` = :categoryID");
         $query->bindParam(':categoryID', $categoryID);
         $query->execute();
@@ -16,11 +16,11 @@ class ProductsHydrator
         return $query->fetchAll();
     }
 
-    public static function getProduct(PDO $db, int $productID)
+    public static function getProduct(PDO $db, int $id)
     {
         $query = $db->prepare("SELECT `id`, `categoryID`, `width`, `height`, `depth`, `price`, `stock`,
         `related`, `color` FROM `Products` WHERE `id` = :productID");
-        $query->bindParam(':productID', $productID);
+        $query->bindParam(':productID', $id);
         $query->execute();
         $query->setFetchMode(PDO::FETCH_CLASS, Product::class);
         return $query->fetch();
