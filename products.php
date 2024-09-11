@@ -12,10 +12,18 @@ use FurnitureStoreAPI\Exceptions\InvalidCategoryException as InvalidCategoryExce
 SetHeaders::apiHeaders();
 
 try {
-    if (isset($_GET['cat']) && $_GET['cat'] < 12 && $_GET['cat'] > 0) {
-        $response = Response::apiResponse(200, 'Successfully retrieved products',
-            ProductsHydrator::getProducts(Connection::db(), intval($_GET['cat'])));
-    } else {
+    if (isset($_GET['cat']) && is_numeric($_GET['cat'])) {
+        if ((empty(ProductsHydrator::getProducts(Connection::db(), intval($_GET['cat'])))))
+        {
+            throw new InvalidCategoryException();
+        }
+        else
+        {
+            $response = Response::apiResponse(200, 'Successfully retrieved products',
+                ProductsHydrator::getProducts(Connection::db(), intval($_GET['cat'])));
+        }
+    }
+    else {
         throw new InvalidCategoryException();
     }
 } catch (InvalidCategoryException $e) {
