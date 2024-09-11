@@ -13,7 +13,7 @@ SetHeaders::apiHeaders();
 
 try {
     if (isset($_GET['cat']) && is_numeric($_GET['cat'])) {
-        if ((empty(ProductsHydrator::getProducts(Connection::db(), intval($_GET['cat'])))))
+        if (empty(ProductsHydrator::getProducts(Connection::db(), intval($_GET['cat']))))
         {
             throw new InvalidCategoryException();
         }
