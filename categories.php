@@ -11,11 +11,12 @@ use FurnitureStoreAPI\Services\Headers as SetHeaders;
 SetHeaders::apiHeaders();
 
 try {
-    echo Response::apiResponse(200, 'Successfully retrieved categories', CategoryHydrator::getCategories(Connection::db()));
+    $response = Response::apiResponse(200, 'Successfully retrieved categories', CategoryHydrator::getCategories(Connection::db()));
 } catch (Exception $e) {
-    echo Response::apiResponse(500, 'Unexpected error', []);
+    $response = Response::apiResponse(500, 'Unexpected error', []);
     ErrorLogging::errorLogging($e);
 }
+echo $response;
 
 
 
