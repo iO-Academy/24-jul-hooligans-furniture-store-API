@@ -4,17 +4,24 @@ namespace FurnitureStoreAPI\Services;
 
 class UOMConversionService
 {
-    public static function convertUnit(int $dimension)
+    private static $unit;
+
+    public static function setUnit($unit)
     {
-        if($_GET['unit'] === 'cm')
+        self::$unit = $unit;
+    }
+
+    public static function convertUnit(int $dimension) :float
+    {
+        if(self::$unit === 'cm')
         {
             return round(($dimension / 10), 2);
         }
-        elseif($_GET['unit'] === 'in')
+        elseif(self::$unit === 'in')
         {
             return round(($dimension  / 25.4), 2);
         }
-        elseif($_GET['unit'] === 'ft')
+        elseif(self::$unit === 'ft')
         {
             return round(($dimension  / 304.8), 2);
         }

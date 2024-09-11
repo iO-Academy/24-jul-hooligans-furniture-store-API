@@ -7,6 +7,7 @@ use FurnitureStoreAPI\Response\LoggingService as ErrorLogging;
 use FurnitureStoreAPI\Services\Headers as SetHeaders;
 use FurnitureStoreAPI\DatabaseConnection\DBConnect as Connection;
 use FurnitureStoreAPI\Exceptions\InvalidProductException as InvalidProductException;
+use FurnitureStoreAPI\Services\UOMConversionService as UOMConversion;
 
 SetHeaders::apiHeaders();
 
@@ -18,6 +19,7 @@ try {
         }
         else
         {
+            UOMConversion::setUnit($_GET['unit']);
             $response = Response::apiResponse(200, 'Successfully retrieved product',
                 ProductsHydrator::getProduct(Connection::db(), intval($_GET['id'])));
         }
