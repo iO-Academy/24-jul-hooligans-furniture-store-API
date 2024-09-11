@@ -20,4 +20,12 @@ class ResponseTest extends TestCase {
         $this->assertSame(500,http_response_code());
         $this->assertSame('{"message":"Unexpected error","data":[]}',$result);
     }
+
+    public function testInvalidResponse_Success ()
+    {
+        $successResponse = new ResponseService();
+        $result = $successResponse->apiResponse(400, 'Invalid category id',[]);
+        $this->assertSame(400,http_response_code());
+        $this->assertSame('{"message":"Invalid category id","data":[]}',$result);
+    }
 }
