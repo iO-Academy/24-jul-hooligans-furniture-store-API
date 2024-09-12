@@ -21,7 +21,7 @@ try {
         else
         {
             $unitRequest = $_GET['unit'] ?? 'mm';
-            if(in_array($unitRequest,["", 'mm','cm','in','ft']))
+            if(in_array($unitRequest,['mm','cm','in','ft']))
             {
               UOMConversion::setUnit($unitRequest);
             }
