@@ -5,18 +5,18 @@ use PHPUnit\Framework\TestCase;
 
 class ConversionsTest extends TestCase
 {
-    public function testCMConversion_success()
+    public function testUnitConversion_success()
     {
-        $_GET['unit'] = 'ft';
         $measurement = new UnitConversionService();
+        UnitConversionService::setUnit('ft');
         $result = $measurement::convertUnit(100);
         $this->assertSame(0.33, $result);
     }
 
-    public function testCMConversion_malformed()
+    public function testUnitConversion_malformed()
     {
-        $_GET['unit'] = 'ft';
         $measurement = new UnitConversionService();
+        UnitConversionService::setUnit('ft');
         $this->expectException(TypeError::class);
         $result = $measurement::convertUnit([100]);
     }

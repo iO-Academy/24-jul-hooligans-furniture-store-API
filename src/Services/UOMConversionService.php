@@ -6,7 +6,7 @@ class UOMConversionService
 {
     private static $unit;
 
-    public static function setUnit($unit)
+    public static function setUnit($unit) : void
     {
         self::$unit = $unit;
     }
