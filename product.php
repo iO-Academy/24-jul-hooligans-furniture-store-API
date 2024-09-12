@@ -33,6 +33,7 @@ try {
                 ProductsHydrator::getProduct(Connection::db(), intval($_GET['id'])));
         }
     }
+
     else {
         throw new InvalidProductException();
     }
