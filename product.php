@@ -42,8 +42,6 @@ try {
             {
                 throw new InvalidCurrencyException();
             }
-            $response = Response::apiResponse(200, 'Successfully retrieved product',
-                ProductsHydrator::getProduct(Connection::db(), intval($_GET['id'])));
         }
     }
     else

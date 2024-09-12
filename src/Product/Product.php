@@ -20,7 +20,7 @@ class Product extends Products implements JsonSerializable
             'width' =>  UnitConversionService::convertUnit($this->width),
             'height' => UnitConversionService::convertUnit($this->height),
             'depth' => UnitConversionService::convertUnit($this->depth),
-            'price' => CurrencyConversionService::ConvertCurrency($this->price),
+            'price' => CurrencyConversionService::convertCurrency($this->price),
             'stock' => $this->stock,
             'related' => $this->related,
             'color' => $this->color,

@@ -17,7 +17,7 @@ class Products implements jsonSerializable
     {
         return [
             'id' => $this->id,
-            'price' => CurrencyConversionService::ConvertCurrency($this->price),
+            'price' => CurrencyConversionService::convertCurrency($this->price),
             'stock' => $this->stock,
             'color' => $this->color,
         ];

@@ -9,7 +9,7 @@ class CurrencyTest extends TestCase
     {
         $currency = new CurrencyConversion();
         CurrencyConversion::setCurrency('USD');
-        $result = $currency::ConvertCurrency(100.50);
+        $result = $currency::convertCurrency(100.50);
         $this->assertSame(119.60, $result);
     }
 
@@ -18,6 +18,6 @@ class CurrencyTest extends TestCase
         $currencyConversion = new CurrencyConversion();
         CurrencyConversion::setCurrency('USD');
         $this->expectException(TypeError::class);
-        $result = $currencyConversion::ConvertCurrency([100.50]);
+        $result = $currencyConversion::convertCurrency([100.50]);
     }
 }
