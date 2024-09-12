@@ -1,10 +1,10 @@
 <?php
 
 namespace FurnitureStoreAPI\Product;
-use JsonSerializable;
+
 use FurnitureStoreAPI\Products\Products;
 use FurnitureStoreAPI\Services\UOMConversionService as UnitConversionService;
-use FurnitureStoreAPI\Services\CurrencyConversion as CurrencyConversionService;
+use JsonSerializable;
 
 class Product extends Products implements JsonSerializable
 {
@@ -13,14 +13,30 @@ class Product extends Products implements JsonSerializable
     private int $depth;
     private int $related;
 
+    public function getWidth(): int
+    {
+        return UnitConversionService::convertUnit($this->width);
+    }
+
+    public function getHeight(): int
+    {
+        return UnitConversionService::convertUnit($this->height);
+    }
+
+    public function getDepth(): int
+    {
+        return UnitConversionService::convertUnit($this->depth);
+    }
+
+
     public function jsonSerialize(): mixed
     {
         return [
             'categoryID' => $this->categoryID,
-            'width' =>  UnitConversionService::convertUnit($this->width),
-            'height' => UnitConversionService::convertUnit($this->height),
-            'depth' => UnitConversionService::convertUnit($this->depth),
-            'price' => CurrencyConversionService::convertCurrency($this->price),
+            'width' => $this->getWidth(),
+            'height' => $this->getHeight(),
+            'depth' => $this->getDepth(),
+            'price' => $this->getPrice(),
             'stock' => $this->stock,
             'related' => $this->related,
             'color' => $this->color,

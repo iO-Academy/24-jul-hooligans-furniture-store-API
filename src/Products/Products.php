@@ -13,11 +13,16 @@ class Products implements jsonSerializable
     protected int $stock;
     protected string $color;
 
+    public function getPrice(): float
+    {
+        return CurrencyConversionService::convertCurrency($this->price);
+    }
+
     public function jsonSerialize(): mixed
     {
         return [
             'id' => $this->id,
-            'price' => CurrencyConversionService::convertCurrency($this->price),
+            'price' => $this->getPrice(),
             'stock' => $this->stock,
             'color' => $this->color,
         ];
