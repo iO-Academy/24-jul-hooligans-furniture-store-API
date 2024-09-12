@@ -3,6 +3,7 @@
 namespace FurnitureStoreAPI\Product;
 use JsonSerializable;
 use FurnitureStoreAPI\Products\Products;
+use FurnitureStoreAPI\Services\UOMConversionService as UnitConversionService;
 
 class Product extends Products implements JsonSerializable
 {
@@ -15,9 +16,9 @@ class Product extends Products implements JsonSerializable
     {
         return [
             'categoryID' => $this->categoryID,
-            'width' => $this->width,
-            'height' => $this->height,
-            'depth' => $this->depth,
+            'width' =>  UnitConversionService::convertUnit($this->width),
+            'height' => UnitConversionService::convertUnit($this->height),
+            'depth' => UnitConversionService::convertUnit($this->depth),
             'price' => $this->price,
             'stock' => $this->stock,
             'related' => $this->related,

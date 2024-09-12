@@ -25,5 +25,13 @@ class ProductsHydrator
         $query->setFetchMode(PDO::FETCH_CLASS, Product::class);
         return $query->fetch();
     }
-
+    public static function getInStockProducts(PDO $db, int $categoryID)
+    {
+        $query = $db->prepare("SELECT `categoryID`, `price`, `stock`, `color`, `id`
+                                FROM `Products` WHERE `stock` > 0 AND `categoryID` = :categoryID");
+        $query->bindParam(':categoryID', $categoryID);
+        $query->execute();
+        $query->setFetchMode(PDO::FETCH_CLASS, Products::class);
+        return $query->fetchAll();
+    }
 }

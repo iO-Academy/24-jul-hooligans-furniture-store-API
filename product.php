@@ -7,6 +7,8 @@ use FurnitureStoreAPI\Response\LoggingService as ErrorLogging;
 use FurnitureStoreAPI\Services\Headers as SetHeaders;
 use FurnitureStoreAPI\DatabaseConnection\DBConnect as Connection;
 use FurnitureStoreAPI\Exceptions\InvalidProductException as InvalidProductException;
+use FurnitureStoreAPI\Exceptions\InvalidUnitException as InvalidUnitException;
+use FurnitureStoreAPI\Services\UOMConversionService as UOMConversion;
 
 SetHeaders::apiHeaders();
 
@@ -18,6 +20,15 @@ try {
         }
         else
         {
+            $unitRequest = $_GET['unit'] ?? 'mm';
+            if(in_array($unitRequest,['mm','cm','in','ft']))
+            {
+              UOMConversion::setUnit($unitRequest);
+            }
+            else
+            {
+                throw new InvalidUnitException();
+            }
             $response = Response::apiResponse(200, 'Successfully retrieved product',
                 ProductsHydrator::getProduct(Connection::db(), intval($_GET['id'])));
         }
@@ -34,5 +45,4 @@ try {
 }
 
 echo $response;
-
 
