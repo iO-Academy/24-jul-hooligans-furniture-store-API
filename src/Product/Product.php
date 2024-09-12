@@ -13,17 +13,17 @@ class Product extends Products implements JsonSerializable
     private int $depth;
     private int $related;
 
-    public function getWidth(): int
+    public function getWidth(): float
     {
         return UnitConversionService::convertUnit($this->width);
     }
 
-    public function getHeight(): int
+    public function getHeight(): float
     {
         return UnitConversionService::convertUnit($this->height);
     }
 
-    public function getDepth(): int
+    public function getDepth(): float
     {
         return UnitConversionService::convertUnit($this->depth);
     }
