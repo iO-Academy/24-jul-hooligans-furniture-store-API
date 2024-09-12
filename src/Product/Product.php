@@ -4,6 +4,7 @@ namespace FurnitureStoreAPI\Product;
 use JsonSerializable;
 use FurnitureStoreAPI\Products\Products;
 use FurnitureStoreAPI\Services\UOMConversionService as UnitConversionService;
+use FurnitureStoreAPI\Services\CurrencyConversion as CurrencyConversionService;
 
 class Product extends Products implements JsonSerializable
 {
@@ -19,7 +20,7 @@ class Product extends Products implements JsonSerializable
             'width' =>  UnitConversionService::convertUnit($this->width),
             'height' => UnitConversionService::convertUnit($this->height),
             'depth' => UnitConversionService::convertUnit($this->depth),
-            'price' => $this->price,
+            'price' => CurrencyConversionService::ConvertCurrency($this->price),
             'stock' => $this->stock,
             'related' => $this->related,
             'color' => $this->color,

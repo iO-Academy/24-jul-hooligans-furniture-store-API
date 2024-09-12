@@ -2,6 +2,7 @@
 
 namespace FurnitureStoreAPI\Products;
 
+use FurnitureStoreAPI\Services\CurrencyConversion as CurrencyConversionService;
 use JsonSerializable;
 
 class Products implements jsonSerializable
@@ -16,7 +17,7 @@ class Products implements jsonSerializable
     {
         return [
             'id' => $this->id,
-            'price' => $this->price,
+            'price' => CurrencyConversionService::ConvertCurrency($this->price),
             'stock' => $this->stock,
             'color' => $this->color,
         ];

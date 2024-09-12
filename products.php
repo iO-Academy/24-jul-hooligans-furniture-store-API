@@ -2,42 +2,57 @@
 
 require('vendor/autoload.php');
 
-use FurnitureStoreAPI\Products\ProductsHydrator as ProductsHydrator;
 use FurnitureStoreAPI\DatabaseConnection\DBConnect as Connection;
+use FurnitureStoreAPI\Exceptions\InvalidCategoryException as InvalidCategoryException;
+use FurnitureStoreAPI\Exceptions\InvalidCurrencyException as InvalidCurrencyException;
+use FurnitureStoreAPI\Products\ProductsHydrator as ProductsHydrator;
 use FurnitureStoreAPI\Response\LoggingService as ErrorLogging;
 use FurnitureStoreAPI\Response\ResponseService as Response;
+use FurnitureStoreAPI\Services\CurrencyConversion as CurrencyConversion;
 use FurnitureStoreAPI\Services\Headers as SetHeaders;
-use FurnitureStoreAPI\Exceptions\InvalidCategoryException as InvalidCategoryException;
 
 SetHeaders::apiHeaders();
 
-$db = Connection::db();
-$categoryID = intval($_GET['cat']);
-$productsData = ProductsHydrator::getProducts($db, $categoryID);
-$inStockProductsData = ProductsHydrator::getInStockProducts($db, $categoryID);
+try
+{
+    if (isset($_GET['cat']) && is_numeric($_GET['cat']))
+    {
+        $db = Connection::db();
+        $categoryID = intval($_GET['cat']) ?? null;
+        $inStock = $_GET['instockonly'] ?? 0;
+        $productsData = ($inStock == 1)
+            ? ProductsHydrator::getInStockProducts($db, $categoryID)
+            : ProductsHydrator::getProducts($db, $categoryID);
+        $currencyRequest = ($_GET['currency'] ?? 'GBP');
 
-try {
-    if (isset($_GET['cat']) && is_numeric($_GET['cat'])) {
         if (empty($productsData))
         {
             throw new InvalidCategoryException();
         }
-        else if ($_GET['instockonly'] == 1)
-        {
-            $response = Response::apiResponse(200, 'Successfully retrieved products', $inStockProductsData);
-        }
         else
         {
-            $response = Response::apiResponse(200, 'Successfully retrieved products', $productsData);
+            if (in_array($currencyRequest, ['GBP', 'USD', 'EUR', 'YEN']))
+            {
+                CurrencyConversion::setCurrency($currencyRequest);
+                $response = Response::apiResponse(200, 'Successfully retrieved products', $productsData);
+            } else
+            {
+                throw new InvalidCurrencyException();
+            }
         }
     }
-    else {
+    else
+    {
         throw new InvalidCategoryException();
     }
-} catch (InvalidCategoryException $e) {
+}
+catch (InvalidCategoryException $e)
+{
     $response = Response::apiResponse(400, $e->getMessage(), []);
     ErrorLogging::errorLogging($e);
-} catch (Exception $e) {
+}
+catch (Exception $e)
+{
     $response = Response::apiResponse(500, $e->getMessage(), []);
     ErrorLogging::errorLogging($e);
 }
