@@ -35,4 +35,12 @@ class ResponseTest extends TestCase {
         $this->assertSame(400, http_response_code());
         $this->assertSame('{"message":"Invalid product id","data":[]}', $result);
     }
+
+    public function testInvalidCurrencyResponse_Success ()
+    {
+        $successResponse = new ResponseService();
+        $result = $successResponse->apiResponse(400, 'Invalid currency',[]);
+        $this->assertSame(400, http_response_code());
+        $this->assertSame('{"message":"Invalid currency","data":[]}',$result);
+    }
 }
