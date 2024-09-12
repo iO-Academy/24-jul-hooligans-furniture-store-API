@@ -11,16 +11,24 @@ use FurnitureStoreAPI\Exceptions\InvalidCategoryException as InvalidCategoryExce
 
 SetHeaders::apiHeaders();
 
+$db = Connection::db();
+$categoryID = intval($_GET['cat']);
+$productsData = ProductsHydrator::getProducts($db, $categoryID);
+$inStockProductsData = ProductsHydrator::getInStockProducts($db, $categoryID);
+
 try {
     if (isset($_GET['cat']) && is_numeric($_GET['cat'])) {
-        if (empty(ProductsHydrator::getProducts(Connection::db(), intval($_GET['cat']))))
+        if (empty($productsData))
         {
             throw new InvalidCategoryException();
         }
+        else if ($_GET['instockonly'] == 1)
+        {
+            $response = Response::apiResponse(200, 'Successfully retrieved products', $inStockProductsData);
+        }
         else
         {
-            $response = Response::apiResponse(200, 'Successfully retrieved products',
-                ProductsHydrator::getProducts(Connection::db(), intval($_GET['cat'])));
+            $response = Response::apiResponse(200, 'Successfully retrieved products', $productsData);
         }
     }
     else {
