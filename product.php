@@ -49,7 +49,7 @@ try {
         throw new InvalidProductException();
     }
 }
-catch (InvalidProductException $e) {
+catch (InvalidProductException | InvalidCurrencyException | InvalidUnitException $e) {
     $response = Response::apiResponse(400, $e->getMessage(), []);
     ErrorLogging::errorLogging($e);
 }

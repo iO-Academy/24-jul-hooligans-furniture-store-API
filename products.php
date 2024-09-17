@@ -46,7 +46,7 @@ try
         throw new InvalidCategoryException();
     }
 }
-catch (InvalidCategoryException $e)
+catch (InvalidCategoryException | InvalidCurrencyException $e)
 {
     $response = Response::apiResponse(400, $e->getMessage(), []);
     ErrorLogging::errorLogging($e);
